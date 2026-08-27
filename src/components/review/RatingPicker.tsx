@@ -65,7 +65,7 @@ export function RatingPicker() {
       </div>
 
       <motion.div
-        animate={{ opacity: value ? 1 : 0.45, y: value ? 0 : 6 }}
+        animate={{ opacity: value ? 1 : 0.75, y: value ? 0 : 6 }}
         transition={{ duration: 0.4 }}
         className="relative overflow-hidden rounded-full px-9 py-3.5"
         style={{ backgroundImage: "var(--gradient-navy)", boxShadow: "var(--shadow-lift)" }}
