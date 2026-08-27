@@ -57,7 +57,7 @@ export function RatingPicker() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.28 }}
-            className="font-sans text-[0.7rem] font-500 tracking-[0.34em] text-navy uppercase"
+            className="font-sans text-[0.7rem] font-medium tracking-[0.34em] text-navy uppercase"
           >
             {CAPTIONS[active]}
           </motion.p>
@@ -75,7 +75,7 @@ export function RatingPicker() {
           className="animate-sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3"
           style={{ background: "linear-gradient(90deg, transparent, oklch(1 0 0 / 0.28), transparent)" }}
         />
-        <span className="gold-text relative font-sans text-[0.72rem] font-600 tracking-[0.3em] uppercase">
+        <span className="gold-text relative font-sans text-[0.72rem] font-semibold tracking-[0.3em] uppercase">
           Publier mon avis
         </span>
       </motion.div>

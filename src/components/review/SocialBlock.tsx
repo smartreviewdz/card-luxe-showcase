@@ -40,7 +40,7 @@ function Circle({
         />
         <Icon className={`relative ${size === "lg" ? "h-8 w-8" : "h-6 w-6"} text-gold-deep`} strokeWidth={1.6} />
       </motion.div>
-      <span className="font-sans text-[0.62rem] font-600 tracking-[0.24em] text-ivory uppercase">{label}</span>
+      <span className="font-sans text-[0.62rem] font-semibold tracking-[0.24em] text-ivory uppercase">{label}</span>
       <span className="max-w-[7.5rem] font-sans text-[0.66rem] leading-snug text-ivory/45">{caption}</span>
     </Reveal>
   );
@@ -63,7 +63,7 @@ export function SocialBlock() {
           <Eyebrow>Restons connectés</Eyebrow>
 
           <h2 className="mt-4 text-center">
-            <span className="block font-sans text-3xl font-500 text-ivory">Suivez-nous</span>
+            <span className="block font-sans text-3xl font-medium text-ivory">Suivez-nous</span>
             <span className="gold-text block font-display text-3xl italic">sur les réseaux</span>
           </h2>
 
@@ -82,7 +82,7 @@ export function SocialBlock() {
           </div>
 
           <div className="mt-9 gold-rule" />
-          <div className="mt-4 flex justify-between font-sans text-[0.6rem] font-600 tracking-[0.24em] text-gold uppercase">
+          <div className="mt-4 flex justify-between font-sans text-[0.6rem] font-semibold tracking-[0.24em] text-gold uppercase">
             <span>Coulisses</span>
             <span>Nouveautés</span>
             <span>Avis</span>

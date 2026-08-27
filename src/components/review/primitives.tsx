@@ -44,7 +44,7 @@ export function Eyebrow({ children, tone = "gold" }: { children: ReactNode; tone
     <div className="flex items-center justify-center gap-3">
       <span className="gold-rule w-10" />
       <span
-        className={`font-sans text-[0.66rem] font-500 tracking-[0.42em] uppercase ${
+        className={`font-sans text-[0.66rem] font-medium tracking-[0.42em] uppercase ${
           tone === "gold" ? "text-gold" : "text-navy"
         }`}
       >
