@@ -59,7 +59,24 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Avify review theme */
+  --color-navy-deep: var(--navy-deep);
+  --color-navy: var(--navy);
+  --color-navy-soft: var(--navy-soft);
+  --color-navy-line: var(--navy-line);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-deep: var(--gold-deep);
+  --color-ivory: var(--ivory);
+  --color-ivory-shade: var(--ivory-shade);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", "Inter", system-ui, sans-serif;
 }
+
 
 :root {
   --radius: 0.625rem;
@@ -140,5 +157,137 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+}
+
+/* ---------------- Avify premium review theme ---------------- */
+
+:root {
+  --navy-deep: oklch(0.19 0.055 262);
+  --navy: oklch(0.25 0.068 264);
+  --navy-soft: oklch(0.31 0.072 265);
+  --navy-line: oklch(0.42 0.075 266);
+  --gold: oklch(0.79 0.13 84);
+  --gold-light: oklch(0.9 0.09 92);
+  --gold-deep: oklch(0.63 0.12 72);
+  --ivory: oklch(0.975 0.004 90);
+  --ivory-shade: oklch(0.935 0.008 90);
+  --ink: oklch(0.24 0.055 263);
+  --ink-muted: oklch(0.52 0.03 263);
+
+  --gradient-gold: linear-gradient(
+    100deg,
+    var(--gold-deep) 0%,
+    var(--gold-light) 38%,
+    var(--gold) 55%,
+    var(--gold-deep) 100%
+  );
+  --gradient-navy: linear-gradient(170deg, var(--navy) 0%, var(--navy-deep) 65%, oklch(0.15 0.05 262) 100%);
+  --gradient-silver: linear-gradient(100deg, #7d8794 0%, #e9edf2 42%, #9aa5b2 60%, #6f7885 100%);
+  --shadow-gold-glow: 0 0 40px -8px color-mix(in oklab, var(--gold) 55%, transparent);
+  --shadow-lift: 0 24px 60px -28px oklch(0.15 0.05 262 / 0.75);
+  --shadow-soft-inset:
+    8px 8px 20px oklch(0.8 0.01 90 / 0.55),
+    -8px -8px 20px oklch(1 0 0 / 0.9);
+}
+
+@utility gold-text {
+  background-image: var(--gradient-gold);
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility silver-text {
+  background-image: var(--gradient-silver);
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility gold-rule {
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 80%, transparent),
+    transparent
+  );
+}
+
+@keyframes avify-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+@keyframes avify-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes avify-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(12px, -140px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes avify-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes avify-twinkle {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px color-mix(in oklab, var(--gold) 70%, transparent));
+  }
+}
+
+@utility animate-sheen {
+  animation: avify-sheen 3.6s ease-in-out infinite;
+}
+
+@utility animate-breathe {
+  animation: avify-breathe 4.5s ease-in-out infinite;
+}
+
+@utility animate-spin-slow {
+  animation: avify-spin-slow 14s linear infinite;
+}
+
+@utility animate-twinkle {
+  animation: avify-twinkle 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
