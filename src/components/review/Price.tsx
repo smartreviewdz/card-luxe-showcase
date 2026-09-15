@@ -45,8 +45,8 @@ export function Price({
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className={`gold-text font-display font-semibold tracking-wide ${
-              size === "lg" ? "text-3xl" : "text-2xl"
+            className={`gold-text-deep font-display font-bold tracking-wide ${
+              size === "lg" ? "text-4xl" : "text-3xl"
             }`}
           >
             {formatDA(current)}
