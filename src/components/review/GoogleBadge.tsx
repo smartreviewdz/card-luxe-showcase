@@ -1,12 +1,17 @@
 import { motion } from "motion/react";
 
-export function GoogleBadge() {
+export function GoogleBadge({ onClick }: { onClick?: () => void }) {
   return (
-    <motion.div
+    <motion.button
+      type="button"
+      onClick={onClick}
+      aria-label="Ajuster les tarifs"
       initial={{ opacity: 0, scale: 0.8, y: -12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.94 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto h-28 w-28"
+      className="relative mx-auto block h-28 w-28 outline-none"
     >
       <span
         className="animate-breathe absolute inset-[-18%] rounded-full"
@@ -18,7 +23,7 @@ export function GoogleBadge() {
       />
       <span className="absolute inset-[3px] rounded-full bg-ivory" />
       <div className="absolute inset-[3px] grid place-items-center overflow-hidden rounded-full">
-        <svg viewBox="0 0 48 48" className="h-14 w-14" aria-label="Google" role="img">
+        <svg viewBox="0 0 48 48" className="h-14 w-14" aria-hidden="true">
           <path
             fill="#EA4335"
             d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.5 17.7 9.5 24 9.5z"
@@ -37,6 +42,6 @@ export function GoogleBadge() {
           />
         </svg>
       </div>
-    </motion.div>
+    </motion.button>
   );
 }

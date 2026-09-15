@@ -1,29 +1,30 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { GoogleBadge } from "@/components/review/GoogleBadge";
-import { RatingPicker } from "@/components/review/RatingPicker";
-import { SocialBlock } from "@/components/review/SocialBlock";
-import { Corners, Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
+import { Catalogue } from "@/components/review/Catalogue";
+import { PriceEditor } from "@/components/review/PriceEditor";
+import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Confiserie du Bonheur — Laissez votre avis Google" },
+      { title: "Avify Stat — Catalogue des cartes et abonnements" },
       {
         name: "description",
         content:
-          "Partagez votre expérience à la Confiserie du Bonheur : notez votre visite et suivez-nous sur les réseaux. Une page d'avis premium signée Avify Stat.",
+          "Catalogue Avify Stat : cartes d'avis Google NFC, chevalet de comptoir, édition Premium et abonnements au logiciel de filtrage. Tarifs en dinars algériens.",
       },
-      { property: "og:title", content: "Confiserie du Bonheur — Laissez votre avis Google" },
+      { property: "og:title", content: "Avify Stat — Catalogue des cartes et abonnements" },
       {
         property: "og:description",
-        content: "Notez votre expérience en un geste et restons connectés sur les réseaux.",
+        content: "Cartes NFC d'avis Google et abonnements logiciel, tarifs en DA.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: ReviewPage,
+  component: CataloguePage,
 });
 
 function Particles() {
@@ -44,7 +45,7 @@ function Particles() {
   );
 }
 
-function Hero() {
+function Hero({ onBadgeClick }: { onBadgeClick: () => void }) {
   return (
     <header className="relative overflow-hidden pt-14 pb-24" style={{ backgroundImage: "var(--gradient-navy)" }}>
       <Particles />
@@ -54,7 +55,7 @@ function Hero() {
       />
 
       <div className="relative px-6">
-        <GoogleBadge />
+        <GoogleBadge onClick={onBadgeClick} />
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -62,10 +63,13 @@ function Hero() {
           transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7"
         >
-          <Eyebrow>Avis vérifié</Eyebrow>
-          <h1 className="mt-4 text-center font-display text-3xl leading-tight font-semibold tracking-wide text-ivory uppercase">
-            Laissez-nous votre avis sur Google
+          <Eyebrow>Catalogue officiel</Eyebrow>
+          <h1 className="mt-4 text-center font-display text-4xl leading-tight font-semibold tracking-[0.14em] text-ivory uppercase">
+            Avify Stat
           </h1>
+          <p className="mt-3 text-center font-sans text-[0.62rem] tracking-[0.3em] text-ivory/50 uppercase">
+            Better feedback. Better businesses.
+          </p>
         </motion.div>
 
         <div className="mt-6 flex items-center justify-center gap-3">
@@ -94,59 +98,6 @@ function Hero() {
   );
 }
 
-function BusinessBlock() {
-  return (
-    <section className="px-6 pt-8 pb-4">
-      <Reveal className="flex flex-col items-center">
-        <motion.div
-          animate={{ y: [0, -7, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="relative h-44 w-44"
-        >
-          <Corners />
-          <div
-            className="absolute inset-6 grid place-items-center rounded-[1.4rem] bg-ivory"
-            style={{ boxShadow: "var(--shadow-soft-inset)" }}
-          >
-            <div className="grid h-20 w-20 place-items-center rounded-full border-2 border-gold/70 bg-ivory">
-              <svg viewBox="0 0 48 48" className="h-11 w-11" aria-hidden="true">
-                <circle cx="18" cy="20" r="2.4" fill="var(--ink)" />
-                <circle cx="30" cy="20" r="2.4" fill="var(--ink)" />
-                <path
-                  d="M16 31 h16"
-                  stroke="var(--ink)"
-                  strokeWidth="2.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </motion.div>
-
-        <h2 className="mt-4 text-center font-display text-4xl font-bold text-navy">Confiserie du Bonheur</h2>
-        <p className="mt-2 text-center font-sans text-sm text-ink-muted">
-          Bonne nuit — Votre opinion compte pour nous.
-        </p>
-      </Reveal>
-    </section>
-  );
-}
-
-function RatingSection() {
-  return (
-    <section className="px-6 py-10">
-      <Reveal>
-        <h3 className="mx-auto max-w-xs text-center font-sans text-xl font-semibold text-navy">
-          Comment avez-vous vécu votre expérience&nbsp;?
-        </h3>
-      </Reveal>
-      <Reveal delay={0.12} className="mt-8">
-        <RatingPicker />
-      </Reveal>
-    </section>
-  );
-}
-
 function Footer() {
   return (
     <footer className="px-6 pb-12">
@@ -159,21 +110,29 @@ function Footer() {
         </div>
         <p className="silver-text mt-5 font-display text-4xl font-semibold tracking-[0.16em]">AVIFY STAT</p>
         <p className="mt-3 font-sans text-[0.62rem] tracking-[0.28em] text-ink-muted uppercase">
-          Better feedback. Better businesses.
+          Tarifs exprimés en dinars algériens
         </p>
       </Reveal>
     </footer>
   );
 }
 
-function ReviewPage() {
+function CataloguePage() {
+  const [prices, setPrices] = useState<Record<string, number>>({});
+  const [open, setOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-ivory font-sans antialiased">
-      <Hero />
-      <BusinessBlock />
-      <RatingSection />
-      <SocialBlock />
+      <Hero onBadgeClick={() => setOpen(true)} />
+      <Catalogue prices={prices} />
       <Footer />
+      <PriceEditor
+        open={open}
+        prices={prices}
+        onChange={(id, value) => setPrices((p) => ({ ...p, [id]: value }))}
+        onReset={() => setPrices({})}
+        onClose={() => setOpen(false)}
+      />
     </main>
   );
 }
