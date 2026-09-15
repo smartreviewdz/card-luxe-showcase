@@ -9,7 +9,7 @@ export function Price({
 }: {
   base: number;
   current: number;
-  unit?: string;
+  unit?: string | undefined;
   size?: "md" | "lg";
 }) {
   const discounted = current < base;
