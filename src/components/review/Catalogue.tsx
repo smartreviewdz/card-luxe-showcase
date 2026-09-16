@@ -8,8 +8,9 @@ function ProductCard({ item, price, i }: { item: Item; price: number; i: number 
     <Reveal delay={i * 0.08}>
       <motion.article
         layout
-        whileHover={{ y: -6 }}
-        transition={{ layout: { type: "spring", stiffness: 240, damping: 26 }, type: "spring", stiffness: 260, damping: 20 }}
+        whileHover={{ y: -7, scale: 1.012 }}
+        whileTap={{ scale: 0.992 }}
+        transition={{ layout: { type: "spring", stiffness: 210, damping: 24 }, type: "spring", stiffness: 260, damping: 20 }}
         className="group relative overflow-hidden rounded-[1.4rem] border border-gold/45 bg-ivory p-4"
         style={{ boxShadow: "var(--shadow-card)" }}
       >
@@ -23,23 +24,28 @@ function ProductCard({ item, price, i }: { item: Item; price: number; i: number 
           </span>
         )}
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {item.image && (
             <motion.div
-              whileHover={{ scale: 1.06, rotate: -1.5 }}
-              transition={{ type: "spring", stiffness: 300, damping: 18 }}
-              className="relative h-28 w-28 shrink-0 overflow-hidden rounded-[1rem] border border-gold/45 bg-ivory-shade"
+              initial={{ opacity: 0, scale: 0.82, rotate: -4 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ delay: 0.12 + i * 0.06, type: "spring", stiffness: 190, damping: 17 }}
+              className="relative h-36 w-36 shrink-0"
             >
-              <img
-                src={item.image}
-                alt={item.name}
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
+              <div className="animate-product-float relative h-full w-full overflow-hidden rounded-[1rem] border border-gold/45 bg-ivory-shade shadow-[var(--shadow-product)]">
+                <span className="pointer-events-none absolute inset-0 z-10 bg-product-glint opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
+                />
+              </div>
             </motion.div>
           )}
           <div className="min-w-0 flex-1">
-            <h3 className="font-display text-xl leading-tight font-semibold text-navy">{item.name}</h3>
+            <h3 className="font-display text-lg leading-tight font-semibold text-navy">{item.name}</h3>
             <p className="mt-1 font-sans text-[0.72rem] leading-snug text-ink-muted">{item.detail}</p>
           </div>
         </div>
