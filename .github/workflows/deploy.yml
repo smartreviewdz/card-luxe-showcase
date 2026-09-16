@@ -39,10 +39,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Show build output
+      - name: Prepare GitHub Pages files
         run: |
-          echo "===== DIST ====="
-          find ./dist -maxdepth 4 -type f -print || true
+          mkdir -p ./pages
+          cp -R ./dist/client/. ./pages/
+
+      - name: Check Pages files
+        run: |
+          echo "Files that will be deployed:"
+          find ./pages -maxdepth 2 -type f | sort
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -50,7 +55,7 @@ jobs:
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist
+          path: ./pages
 
       - name: Deploy
         id: deployment
