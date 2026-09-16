@@ -39,8 +39,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Find build output
+        run: |
+          echo "=== ROOT ==="
+          ls -la
+          echo "=== BUILD OUTPUTS ==="
+          find . -maxdepth 4 -type d \( -name "dist" -o -name ".output" -o -name "build" \) -print
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
