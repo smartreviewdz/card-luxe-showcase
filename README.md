@@ -1,14 +1,16 @@
-# Welcome to your Lovable project
+# Ultra Premium Review
+
+Make me the best out of the best review ultra premium looking page with the theme of the card here is a small example try to inspire your self by it but be creative and follow the theme of the card premium ultra AAA 100k full animation and option page do not create a admin thingu just the review page with some social media and shit give me the best simple premium like the card thème animation havy page don't do working links and shit only design okey like the stars don't work and the social media links and shit don't work only design
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/3a61f548-0733-4349-b9bd-093e4fa62ed4).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +22,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
