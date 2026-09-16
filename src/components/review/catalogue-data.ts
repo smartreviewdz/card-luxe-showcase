@@ -1,7 +1,3 @@
-import cartePremium from "@/assets/avify-premium.webp.asset.json";
-import carteNormale from "@/assets/carte-normale.webp.asset.json";
-import carteStand from "@/assets/carte-stand.png.asset.json";
-
 export type Item = {
   id: string;
   name: string;
@@ -26,21 +22,21 @@ export const CATALOGUE: Group[] = [
         name: "Carte Normale 10×10",
         detail: "Plaque NFC + QR, finition mate",
         base: 3200,
-        image: carteNormale.url,
+        image: "/card-luxe-showcase/images/carte-normale.webp",
       },
       {
         id: "stand",
         name: "Carte Normale Stand",
         detail: "Chevalet de comptoir autoportant",
         base: 3000,
-        image: carteStand.url,
+        image: "/card-luxe-showcase/images/carte-stand.png",
       },
       {
         id: "premium",
         name: "Avify Premium 15×15",
         detail: "Édition navy & or, personnalisée",
         base: 3600,
-        image: cartePremium.url,
+        image: "/card-luxe-showcase/images/avify-premium.webp",
         featured: true,
       },
     ],
