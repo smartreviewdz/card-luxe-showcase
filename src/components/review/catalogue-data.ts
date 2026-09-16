@@ -29,14 +29,14 @@ export const CATALOGUE: Group[] = [
         name: "Carte Normale Stand",
         detail: "Chevalet de comptoir autoportant",
         base: 3000,
-        image: "/card-luxe-showcase/images/carte-stand.png",
+        image: "/card-luxe-showcase/images/avify-premium.webp",
       },
       {
         id: "premium",
         name: "Avify Premium 15×15",
         detail: "Édition navy & or, personnalisée",
         base: 3600,
-        image: "/card-luxe-showcase/images/avify-premium.webp",
+        image: "/card-luxe-showcase/images/carte-stand.png",
         featured: true,
       },
     ],
@@ -46,7 +46,13 @@ export const CATALOGUE: Group[] = [
     index: "02",
     title: "Logiciel de Filtrage",
     items: [
-      { id: "filtrage-mois", name: "Abonnement mensuel", detail: "Sans engagement", base: 3500, unit: "/ mois" },
+      {
+        id: "filtrage-mois",
+        name: "Abonnement mensuel",
+        detail: "Sans engagement",
+        base: 3500,
+        unit: "/ mois",
+      },
       {
         id: "filtrage-6",
         name: "Engagement 6 mois",
@@ -62,7 +68,13 @@ export const CATALOGUE: Group[] = [
     index: "03",
     title: "Logiciel + Rapport PDF de Tracking",
     items: [
-      { id: "tracking-mois", name: "Abonnement mensuel", detail: "Rapport mensuel inclus", base: 3800, unit: "/ mois" },
+      {
+        id: "tracking-mois",
+        name: "Abonnement mensuel",
+        detail: "Rapport mensuel inclus",
+        base: 3800,
+        unit: "/ mois",
+      },
       {
         id: "tracking-6",
         name: "Engagement 6 mois",
