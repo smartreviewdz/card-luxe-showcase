@@ -49,7 +49,7 @@ function Hero({ onBadgeClick }: { onBadgeClick: () => void }) {
   return (
     <header className="relative overflow-hidden pt-14 pb-24" style={{ backgroundImage: "var(--gradient-navy)" }}>
       <Particles />
-      <span className="animate-header-sheen pointer-events-none absolute -top-[62%] -left-[38%] h-[225%] w-[18%]" />
+      
 
       <div className="relative px-6">
         <GoogleBadge onClick={onBadgeClick} />

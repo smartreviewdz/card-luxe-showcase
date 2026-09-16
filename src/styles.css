@@ -72,7 +72,7 @@
   --color-ivory-shade: var(--ivory-shade);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
-  --color-header-sheen: var(--header-sheen);
+  
 
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Jost", "Inter", system-ui, sans-serif;
@@ -175,7 +175,7 @@
   --ivory-shade: oklch(0.935 0.008 90);
   --ink: oklch(0.24 0.055 263);
   --ink-muted: oklch(0.52 0.03 263);
-  --header-sheen: oklch(1 0 0 / 0.08);
+  
 
   --gradient-gold: linear-gradient(
     100deg,
@@ -234,23 +234,8 @@
   }
 }
 
-@keyframes avify-header-sheen {
-  0% {
-    transform: translate3d(-140%, -5%, 0) rotate(-24deg);
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.2;
-  }
-  48%,
-  62% {
-    opacity: 0.72;
-  }
-  100% {
-    transform: translate3d(780%, 7%, 0) rotate(-24deg);
-    opacity: 0;
-  }
-}
+
+
 
 @keyframes avify-product-float {
   0%,
@@ -308,21 +293,8 @@
   animation: avify-sheen 3.6s ease-in-out infinite;
 }
 
-@utility animate-header-sheen {
-  animation: avify-header-sheen 5.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-  background-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in oklab, var(--gold-light) 8%, transparent) 26%,
-    var(--header-sheen) 44%,
-    color-mix(in oklab, var(--gold-light) 22%, transparent) 50%,
-    var(--header-sheen) 56%,
-    color-mix(in oklab, var(--gold-light) 8%, transparent) 74%,
-    transparent 100%
-  );
-  filter: blur(1.5px);
-  will-change: transform, opacity;
-}
+
+
 
 @utility animate-product-float {
   animation: avify-product-float 5.8s ease-in-out infinite;
