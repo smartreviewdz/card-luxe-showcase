@@ -72,6 +72,7 @@
   --color-ivory-shade: var(--ivory-shade);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
+  --color-header-sheen: var(--header-sheen);
 
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Jost", "Inter", system-ui, sans-serif;
@@ -174,6 +175,7 @@
   --ivory-shade: oklch(0.935 0.008 90);
   --ink: oklch(0.24 0.055 263);
   --ink-muted: oklch(0.52 0.03 263);
+  --header-sheen: oklch(1 0 0 / 0.08);
 
   --gradient-gold: linear-gradient(
     100deg,
@@ -183,9 +185,9 @@
     var(--gold-deep) 100%
   );
   --gradient-navy: linear-gradient(170deg, var(--navy) 0%, var(--navy-deep) 65%, oklch(0.15 0.05 262) 100%);
-  --gradient-silver: linear-gradient(100deg, #7d8794 0%, #e9edf2 42%, #9aa5b2 60%, #6f7885 100%);
   --shadow-gold-glow: 0 0 40px -8px color-mix(in oklab, var(--gold) 55%, transparent);
   --shadow-lift: 0 24px 60px -28px oklch(0.15 0.05 262 / 0.75);
+  --shadow-card: 0 15px 34px -25px color-mix(in oklab, var(--navy) 48%, transparent);
   --shadow-soft-inset:
     8px 8px 20px oklch(0.8 0.01 90 / 0.55),
     -8px -8px 20px oklch(1 0 0 / 0.9);
@@ -210,13 +212,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-@utility silver-text {
-  background-image: var(--gradient-silver);
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
 @utility gold-rule {
   height: 1px;
   background-image: linear-gradient(
@@ -233,6 +228,15 @@
   }
   100% {
     transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+@keyframes avify-header-sheen {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
 
@@ -280,6 +284,11 @@
 
 @utility animate-sheen {
   animation: avify-sheen 3.6s ease-in-out infinite;
+}
+
+@utility animate-header-sheen {
+  animation: avify-header-sheen 4.8s ease-in-out infinite;
+  background-image: linear-gradient(90deg, transparent 15%, var(--header-sheen) 50%, transparent 85%);
 }
 
 @utility animate-breathe {

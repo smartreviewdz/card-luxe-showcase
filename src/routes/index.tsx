@@ -49,10 +49,7 @@ function Hero({ onBadgeClick }: { onBadgeClick: () => void }) {
   return (
     <header className="relative overflow-hidden pt-14 pb-24" style={{ backgroundImage: "var(--gradient-navy)" }}>
       <Particles />
-      <span
-        className="animate-sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3"
-        style={{ background: "linear-gradient(90deg, transparent, oklch(1 0 0 / 0.08), transparent)" }}
-      />
+      <span className="animate-header-sheen pointer-events-none absolute inset-0 bg-header-sheen" />
 
       <div className="relative px-6">
         <GoogleBadge onClick={onBadgeClick} />
@@ -108,7 +105,7 @@ function Footer() {
           <span className="h-2 w-2 rotate-45 bg-gold" />
           <span className="gold-rule w-16" />
         </div>
-        <p className="silver-text mt-5 font-display text-4xl font-semibold tracking-[0.16em]">AVIFY STAT</p>
+        <p className="gold-text-deep mt-5 font-display text-4xl font-semibold tracking-[0.16em]">AVIFY STAT</p>
         <p className="mt-3 font-sans text-[0.62rem] tracking-[0.28em] text-ink-muted uppercase">
           Tarifs exprimés en dinars algériens
         </p>

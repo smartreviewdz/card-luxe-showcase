@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import { CATALOGUE, type Item } from "./catalogue-data";
 import { Price } from "./Price";
 import { Corners, Eyebrow, Reveal } from "./primitives";
@@ -7,10 +7,11 @@ function ProductCard({ item, price, i }: { item: Item; price: number; i: number 
   return (
     <Reveal delay={i * 0.08}>
       <motion.article
+        layout
         whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="group relative overflow-hidden rounded-[1.4rem] border border-gold/25 bg-ivory p-4"
-        style={{ boxShadow: "var(--shadow-soft-inset)" }}
+        transition={{ layout: { type: "spring", stiffness: 240, damping: 26 }, type: "spring", stiffness: 260, damping: 20 }}
+        className="group relative overflow-hidden rounded-[1.4rem] border border-gold/45 bg-ivory p-4"
+        style={{ boxShadow: "var(--shadow-card)" }}
       >
         <span
           className="animate-sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 opacity-60"
@@ -27,7 +28,7 @@ function ProductCard({ item, price, i }: { item: Item; price: number; i: number 
             <motion.div
               whileHover={{ scale: 1.06, rotate: -1.5 }}
               transition={{ type: "spring", stiffness: 300, damping: 18 }}
-              className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1rem] border border-gold/30"
+              className="relative h-28 w-28 shrink-0 overflow-hidden rounded-[1rem] border border-gold/45 bg-ivory-shade"
             >
               <img
                 src={item.image}
@@ -74,11 +75,18 @@ export function Catalogue({ prices }: { prices: Record<string, number> }) {
             </div>
           </Reveal>
 
-          <div className="flex flex-col gap-4">
-            {group.items.map((item, i) => (
-              <ProductCard key={item.id} item={item} price={prices[item.id] ?? item.base} i={i + gi * 0.2} />
-            ))}
-          </div>
+          <LayoutGroup id={group.id}>
+            <motion.div layout className="flex flex-col gap-4">
+              {(group.id === "cartes"
+                ? [...group.items].sort(
+                    (a, b) => (prices[a.id] ?? a.base) - (prices[b.id] ?? b.base),
+                  )
+                : group.items
+              ).map((item, i) => (
+                <ProductCard key={item.id} item={item} price={prices[item.id] ?? item.base} i={i + gi * 0.2} />
+              ))}
+            </motion.div>
+          </LayoutGroup>
         </section>
       ))}
     </div>
