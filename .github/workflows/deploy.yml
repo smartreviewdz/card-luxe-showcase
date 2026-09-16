@@ -39,12 +39,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Find build output
+      - name: SHOW BUILD FOLDERS
         run: |
-          echo "=== ROOT ==="
+          echo "===== ROOT ====="
           ls -la
-          echo "=== BUILD OUTPUTS ==="
-          find . -maxdepth 4 -type d \( -name "dist" -o -name ".output" -o -name "build" \) -print
+          echo "===== ALL IMPORTANT FOLDERS ====="
+          find . -maxdepth 5 -type d \( -name "dist" -o -name ".output" -o -name "build" -o -name "public" \) -print
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
