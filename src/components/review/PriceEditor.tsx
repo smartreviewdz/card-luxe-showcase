@@ -66,7 +66,9 @@ export function PriceEditor({
                   <div className="mt-3 space-y-3">
                     {group.items.map((item) => {
                       const value = prices[item.id] ?? item.base;
-                      const off = value < item.base;
+                      const reference = previous[item.id] ?? item.base;
+                      const off = value !== reference;
+                      const down = value < reference;
                       return (
                         <div
                           key={item.id}
