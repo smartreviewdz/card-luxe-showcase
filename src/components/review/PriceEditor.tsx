@@ -5,12 +5,14 @@ import { ALL_ITEMS, CATALOGUE, formatDA } from "./catalogue-data";
 export function PriceEditor({
   open,
   prices,
+  previous,
   onChange,
   onReset,
   onClose,
 }: {
   open: boolean;
   prices: Record<string, number>;
+  previous: Record<string, number>;
   onChange: (id: string, value: number) => void;
   onReset: () => void;
   onClose: () => void;

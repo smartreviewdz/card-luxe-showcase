@@ -5,6 +5,8 @@ import { GoogleBadge } from "@/components/review/GoogleBadge";
 import { Catalogue } from "@/components/review/Catalogue";
 import { PriceEditor } from "@/components/review/PriceEditor";
 import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
+import { ALL_ITEMS } from "@/components/review/catalogue-data";
+import { usePrices } from "@/hooks/use-prices";
 
 export const Route = createFileRoute("/")({
   head: () => ({
