@@ -51,7 +51,10 @@ export function PriceEditor({
 
             <h2 className="text-center font-display text-2xl font-semibold text-ivory">Ajuster les tarifs</h2>
             <p className="mt-1 text-center font-sans text-[0.68rem] tracking-[0.2em] text-ivory/50 uppercase">
-              Une remise affiche l&apos;ancien prix
+              Ancien prix affiché à chaque changement
+            </p>
+            <p className="mt-2 text-center font-sans text-[0.62rem] text-gold/80">
+              Vos tarifs sont enregistrés automatiquement
             </p>
 
             <div className="mt-7 space-y-7">
