@@ -98,7 +98,8 @@ export function PriceEditor({
                                 exit={{ opacity: 0, height: 0 }}
                                 className="mt-2 font-sans text-[0.62rem] text-ivory/55"
                               >
-                                Remise&nbsp;: <span className="line-through">{formatDA(item.base)}</span> →{" "}
+                                {down ? "Remise" : "Hausse"}&nbsp;:{" "}
+                                <span className="line-through">{formatDA(reference)}</span> →{" "}
                                 <span className="text-gold">{formatDA(value)}</span>
                               </motion.p>
                             )}
