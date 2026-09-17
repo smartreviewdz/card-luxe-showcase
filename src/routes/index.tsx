@@ -5,6 +5,8 @@ import { GoogleBadge } from "@/components/review/GoogleBadge";
 import { Catalogue } from "@/components/review/Catalogue";
 import { PriceEditor } from "@/components/review/PriceEditor";
 import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
+import { ALL_ITEMS } from "@/components/review/catalogue-data";
+import { usePrices } from "@/hooks/use-prices";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -115,19 +117,25 @@ function Footer() {
 }
 
 function CataloguePage() {
-  const [prices, setPrices] = useState<Record<string, number>>({});
+  const { prices, previous, setPrice, snapshot, reset } = usePrices();
   const [open, setOpen] = useState(false);
+
+  const openEditor = () => {
+    snapshot(Object.fromEntries(ALL_ITEMS.map((it) => [it.id, it.base])));
+    setOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-ivory font-sans antialiased">
-      <Hero onBadgeClick={() => setOpen(true)} />
-      <Catalogue prices={prices} />
+      <Hero onBadgeClick={openEditor} />
+      <Catalogue prices={prices} previous={previous} />
       <Footer />
       <PriceEditor
         open={open}
         prices={prices}
-        onChange={(id, value) => setPrices((p) => ({ ...p, [id]: value }))}
-        onReset={() => setPrices({})}
+        previous={previous}
+        onChange={setPrice}
+        onReset={reset}
         onClose={() => setOpen(false)}
       />
     </main>

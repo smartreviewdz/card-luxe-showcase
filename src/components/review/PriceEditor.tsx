@@ -5,12 +5,14 @@ import { ALL_ITEMS, CATALOGUE, formatDA } from "./catalogue-data";
 export function PriceEditor({
   open,
   prices,
+  previous,
   onChange,
   onReset,
   onClose,
 }: {
   open: boolean;
   prices: Record<string, number>;
+  previous: Record<string, number>;
   onChange: (id: string, value: number) => void;
   onReset: () => void;
   onClose: () => void;
@@ -49,7 +51,10 @@ export function PriceEditor({
 
             <h2 className="text-center font-display text-2xl font-semibold text-ivory">Ajuster les tarifs</h2>
             <p className="mt-1 text-center font-sans text-[0.68rem] tracking-[0.2em] text-ivory/50 uppercase">
-              Une remise affiche l&apos;ancien prix
+              Ancien prix affiché à chaque changement
+            </p>
+            <p className="mt-2 text-center font-sans text-[0.62rem] text-gold/80">
+              Vos tarifs sont enregistrés automatiquement
             </p>
 
             <div className="mt-7 space-y-7">
@@ -61,7 +66,9 @@ export function PriceEditor({
                   <div className="mt-3 space-y-3">
                     {group.items.map((item) => {
                       const value = prices[item.id] ?? item.base;
-                      const off = value < item.base;
+                      const reference = previous[item.id] ?? item.base;
+                      const off = value !== reference;
+                      const down = value < reference;
                       return (
                         <div
                           key={item.id}
@@ -91,7 +98,8 @@ export function PriceEditor({
                                 exit={{ opacity: 0, height: 0 }}
                                 className="mt-2 font-sans text-[0.62rem] text-ivory/55"
                               >
-                                Remise&nbsp;: <span className="line-through">{formatDA(item.base)}</span> →{" "}
+                                {down ? "Remise" : "Hausse"}&nbsp;:{" "}
+                                <span className="line-through">{formatDA(reference)}</span> →{" "}
                                 <span className="text-gold">{formatDA(value)}</span>
                               </motion.p>
                             )}

@@ -3,7 +3,17 @@ import { CATALOGUE, type Item } from "./catalogue-data";
 import { Price } from "./Price";
 import { Corners, Eyebrow, Reveal } from "./primitives";
 
-function ProductCard({ item, price, i }: { item: Item; price: number; i: number }) {
+function ProductCard({
+  item,
+  price,
+  reference,
+  i,
+}: {
+  item: Item;
+  price: number;
+  reference: number;
+  i: number;
+}) {
   return (
     <Reveal delay={i * 0.08}>
       <motion.article
@@ -58,14 +68,20 @@ function ProductCard({ item, price, i }: { item: Item; price: number; i: number 
           ) : (
             <span className="gold-rule w-16" />
           )}
-          <Price base={item.base} current={price} unit={item.unit} size={item.featured ? "lg" : "md"} />
+          <Price base={reference} current={price} unit={item.unit} size={item.featured ? "lg" : "md"} />
         </div>
       </motion.article>
     </Reveal>
   );
 }
 
-export function Catalogue({ prices }: { prices: Record<string, number> }) {
+export function Catalogue({
+  prices,
+  previous,
+}: {
+  prices: Record<string, number>;
+  previous: Record<string, number>;
+}) {
   return (
     <div className="px-5 pt-10 pb-4">
       {CATALOGUE.map((group, gi) => (
@@ -89,7 +105,13 @@ export function Catalogue({ prices }: { prices: Record<string, number> }) {
                   )
                 : group.items
               ).map((item, i) => (
-                <ProductCard key={item.id} item={item} price={prices[item.id] ?? item.base} i={i + gi * 0.2} />
+                <ProductCard
+                  key={item.id}
+                  item={item}
+                  price={prices[item.id] ?? item.base}
+                  reference={previous[item.id] ?? item.base}
+                  i={i + gi * 0.2}
+                />
               ))}
             </motion.div>
           </LayoutGroup>
