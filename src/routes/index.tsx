@@ -13,6 +13,7 @@ import {
   getPrices,
   resetPrices,
   savePrice,
+  unlockEditor,
   type PriceState,
 } from "@/lib/prices.functions";
 
@@ -146,12 +147,12 @@ function CataloguePage() {
 
   const save = useServerFn(savePrice);
   const reset = useServerFn(resetPrices);
+  const unlock = useServerFn(unlockEditor);
 
   const apply = (next: PriceState) => queryClient.setQueryData(pricesQuery.queryKey, next);
 
   const handleUnlock = async (code: string) => {
-    const { unlockEditor } = await import("@/lib/prices.functions");
-    const res = await unlockEditor({ data: { code } });
+    const res = await unlock({ data: { code } });
     if (res.ok) await queryClient.invalidateQueries({ queryKey: statusQuery.queryKey });
     return res.ok;
   };
