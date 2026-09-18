@@ -1,14 +1,35 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { queryOptions, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { motion } from "motion/react";
 import { GoogleBadge } from "@/components/review/GoogleBadge";
 import { Catalogue } from "@/components/review/Catalogue";
 import { PriceEditor } from "@/components/review/PriceEditor";
 import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
 import { ALL_ITEMS } from "@/components/review/catalogue-data";
-import { usePrices } from "@/hooks/use-prices";
+import {
+  getEditorStatus,
+  getPrices,
+  resetPrices,
+  savePrice,
+  type PriceState,
+} from "@/lib/prices.functions";
+
+const pricesQuery = queryOptions({
+  queryKey: ["catalogue-prices"],
+  queryFn: () => getPrices(),
+});
+
+const statusQuery = queryOptions({
+  queryKey: ["editor-status"],
+  queryFn: () => getEditorStatus(),
+});
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => {
+    void context.queryClient.ensureQueryData(pricesQuery);
+  },
   head: () => ({
     meta: [
       { title: "Avify Stat — Catalogue des cartes et abonnements" },
