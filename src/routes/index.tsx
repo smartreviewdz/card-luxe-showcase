@@ -1,14 +1,36 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { queryOptions, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { motion } from "motion/react";
 import { GoogleBadge } from "@/components/review/GoogleBadge";
 import { Catalogue } from "@/components/review/Catalogue";
 import { PriceEditor } from "@/components/review/PriceEditor";
 import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
 import { ALL_ITEMS } from "@/components/review/catalogue-data";
-import { usePrices } from "@/hooks/use-prices";
+import {
+  getEditorStatus,
+  getPrices,
+  resetPrices,
+  savePrice,
+  unlockEditor,
+  type PriceState,
+} from "@/lib/prices.functions";
+
+const pricesQuery = queryOptions({
+  queryKey: ["catalogue-prices"],
+  queryFn: () => getPrices(),
+});
+
+const statusQuery = queryOptions({
+  queryKey: ["editor-status"],
+  queryFn: () => getEditorStatus(),
+});
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => {
+    void context.queryClient.ensureQueryData(pricesQuery);
+  },
   head: () => ({
     meta: [
       { title: "Avify Stat — Catalogue des cartes et abonnements" },
@@ -117,25 +139,57 @@ function Footer() {
 }
 
 function CataloguePage() {
-  const { prices, previous, setPrice, snapshot, reset } = usePrices();
+  const queryClient = useQueryClient();
+  const { data: state } = useSuspenseQuery(pricesQuery);
+  const { data: status } = useQuery({ ...statusQuery, staleTime: 60_000 });
   const [open, setOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const openEditor = () => {
-    snapshot(Object.fromEntries(ALL_ITEMS.map((it) => [it.id, it.base])));
-    setOpen(true);
+  const save = useServerFn(savePrice);
+  const reset = useServerFn(resetPrices);
+  const unlock = useServerFn(unlockEditor);
+
+  const apply = (next: PriceState) => queryClient.setQueryData(pricesQuery.queryKey, next);
+
+  const handleUnlock = async (code: string) => {
+    const res = await unlock({ data: { code } });
+    if (res.ok) await queryClient.invalidateQueries({ queryKey: statusQuery.queryKey });
+    return res.ok;
+  };
+
+  const handleChange = async (id: string, value: number) => {
+    const base = ALL_ITEMS.find((it) => it.id === id)?.base ?? value;
+    setSaving(true);
+    try {
+      apply(await save({ data: { itemId: id, price: value, base } }));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleReset = async () => {
+    setSaving(true);
+    try {
+      apply(await reset());
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <main className="min-h-screen bg-ivory font-sans antialiased">
-      <Hero onBadgeClick={openEditor} />
-      <Catalogue prices={prices} previous={previous} />
+      <Hero onBadgeClick={() => setOpen(true)} />
+      <Catalogue prices={state.prices} previous={state.previous} />
       <Footer />
       <PriceEditor
         open={open}
-        prices={prices}
-        previous={previous}
-        onChange={setPrice}
-        onReset={reset}
+        unlocked={status?.unlocked === true}
+        prices={state.prices}
+        previous={state.previous}
+        saving={saving}
+        onUnlock={handleUnlock}
+        onChange={handleChange}
+        onReset={handleReset}
         onClose={() => setOpen(false)}
       />
     </main>
