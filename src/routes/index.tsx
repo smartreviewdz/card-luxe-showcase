@@ -153,9 +153,12 @@ function CataloguePage() {
 
   const handleUnlock = async (code: string) => {
     const res = await unlock({ data: { code } });
-    if (res.ok) await queryClient.invalidateQueries({ queryKey: statusQuery.queryKey });
-    return res.ok;
+    if (!res.ok) return false;
+    queryClient.setQueryData(statusQuery.queryKey, { unlocked: true });
+    void queryClient.invalidateQueries({ queryKey: statusQuery.queryKey });
+    return true;
   };
+
 
   const handleChange = async (id: string, value: number) => {
     const base = ALL_ITEMS.find((it) => it.id === id)?.base ?? value;

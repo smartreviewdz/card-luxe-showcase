@@ -13,9 +13,12 @@ function sessionConfig() {
     password: process.env["SESSION_SECRET"]!,
     name: "avify-editor",
     maxAge: 60 * 60 * 24 * 90,
-    cookie: { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/" },
+    // SameSite=None so the editor session survives inside the Lovable preview
+    // iframe (cross-site context); Secure is required alongside it.
+    cookie: { httpOnly: true, secure: true, sameSite: "none" as const, path: "/" },
   };
 }
+
 
 function codeMatches(input: string, expected: string) {
   const a = createHash("sha256").update(input, "utf8").digest();
