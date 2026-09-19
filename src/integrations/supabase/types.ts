@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_config: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       catalogue_prices: {
         Row: {
           item_id: string
@@ -40,7 +58,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_catalogue_prices: { Args: { p_code: string }; Returns: undefined }
+      set_catalogue_price: {
+        Args: {
+          p_base: number
+          p_code: string
+          p_item_id: string
+          p_price: number
+        }
+        Returns: undefined
+      }
+      verify_edit_code: { Args: { p_code: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
