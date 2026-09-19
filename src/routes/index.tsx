@@ -23,15 +23,8 @@ const pricesQuery = queryOptions({
 });
 
 
-const statusQuery = queryOptions({
-  queryKey: ["editor-status"],
-  queryFn: () => getEditorStatus(),
-});
-
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => {
-    void context.queryClient.ensureQueryData(pricesQuery);
-  },
+
   head: () => ({
     meta: [
       { title: "Avify Stat — Catalogue des cartes et abonnements" },
