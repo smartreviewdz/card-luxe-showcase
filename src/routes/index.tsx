@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { queryOptions, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
+import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { GoogleBadge } from "@/components/review/GoogleBadge";
 import { Catalogue } from "@/components/review/Catalogue";
@@ -9,18 +8,20 @@ import { PriceEditor } from "@/components/review/PriceEditor";
 import { Eyebrow, GoldStar, Reveal } from "@/components/review/primitives";
 import { ALL_ITEMS } from "@/components/review/catalogue-data";
 import {
-  getEditorStatus,
-  getPrices,
-  resetPrices,
-  savePrice,
-  unlockEditor,
+  fetchPrices,
+  resetPricesRemote,
+  savePriceRemote,
+  storedCode,
+  verifyCode,
   type PriceState,
-} from "@/lib/prices.functions";
+} from "@/lib/prices-client";
 
 const pricesQuery = queryOptions({
   queryKey: ["catalogue-prices"],
-  queryFn: () => getPrices(),
+  queryFn: () => fetchPrices(),
+  staleTime: 30_000,
 });
+
 
 const statusQuery = queryOptions({
   queryKey: ["editor-status"],
