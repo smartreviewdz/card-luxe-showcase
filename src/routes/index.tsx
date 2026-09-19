@@ -134,31 +134,30 @@ function Footer() {
 
 function CataloguePage() {
   const queryClient = useQueryClient();
-  const { data: state } = useSuspenseQuery(pricesQuery);
-  const { data: status } = useQuery({ ...statusQuery, staleTime: 60_000 });
+  const { data: state } = useQuery(pricesQuery);
+  const [unlocked, setUnlocked] = useState(false);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const save = useServerFn(savePrice);
-  const reset = useServerFn(resetPrices);
-  const unlock = useServerFn(unlockEditor);
+  useEffect(() => {
+    if (storedCode()) setUnlocked(true);
+  }, []);
+
+  const value = state ?? { prices: {}, previous: {} };
 
   const apply = (next: PriceState) => queryClient.setQueryData(pricesQuery.queryKey, next);
 
   const handleUnlock = async (code: string) => {
-    const res = await unlock({ data: { code } });
-    if (!res.ok) return false;
-    queryClient.setQueryData(statusQuery.queryKey, { unlocked: true });
-    void queryClient.invalidateQueries({ queryKey: statusQuery.queryKey });
-    return true;
+    const ok = await verifyCode(code);
+    if (ok) setUnlocked(true);
+    return ok;
   };
 
-
-  const handleChange = async (id: string, value: number) => {
-    const base = ALL_ITEMS.find((it) => it.id === id)?.base ?? value;
+  const handleChange = async (id: string, next: number) => {
+    const base = ALL_ITEMS.find((it) => it.id === id)?.base ?? next;
     setSaving(true);
     try {
-      apply(await save({ data: { itemId: id, price: value, base } }));
+      apply(await savePriceRemote(id, next, base));
     } finally {
       setSaving(false);
     }
@@ -167,11 +166,12 @@ function CataloguePage() {
   const handleReset = async () => {
     setSaving(true);
     try {
-      apply(await reset());
+      apply(await resetPricesRemote());
     } finally {
       setSaving(false);
     }
   };
+
 
   return (
     <main className="min-h-screen bg-ivory font-sans antialiased">
