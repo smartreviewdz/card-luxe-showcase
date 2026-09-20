@@ -1,5 +1,11 @@
 import { LayoutGroup, motion } from "motion/react";
-import { CATALOGUE, type Item } from "./catalogue-data";
+import {
+  CATALOGUE,
+  ENGAGEMENTS,
+  engagementDetail,
+  engagementNote,
+  type Item,
+} from "./catalogue-data";
 import { Price } from "./Price";
 import { Corners, Eyebrow, Reveal } from "./primitives";
 
@@ -7,11 +13,15 @@ function ProductCard({
   item,
   price,
   reference,
+  note,
+  detail,
   i,
 }: {
   item: Item;
   price: number;
   reference: number;
+  note?: string | undefined;
+  detail: string;
   i: number;
 }) {
   return (
@@ -56,14 +66,14 @@ function ProductCard({
           )}
           <div className="min-w-0 flex-1">
             <h3 className="font-display text-lg leading-tight font-semibold text-navy">{item.name}</h3>
-            <p className="mt-1 font-sans text-[0.72rem] leading-snug text-ink-muted">{item.detail}</p>
+            <p className="mt-1 font-sans text-[0.72rem] leading-snug text-ink-muted">{detail}</p>
           </div>
         </div>
 
         <div className="mt-4 flex items-end justify-between gap-3">
-          {item.note ? (
+          {note ? (
             <span className="max-w-[9rem] font-sans text-[0.58rem] leading-snug tracking-[0.14em] text-gold-deep uppercase">
-              {item.note}
+              {note}
             </span>
           ) : (
             <span className="gold-rule w-16" />
@@ -110,6 +120,14 @@ export function Catalogue({
                   item={item}
                   price={prices[item.id] ?? item.base}
                   reference={previous[item.id] ?? item.base}
+                  note={
+                    item.id in ENGAGEMENTS ? (engagementNote(item.id, prices) ?? undefined) : item.note
+                  }
+                  detail={
+                    item.id in ENGAGEMENTS
+                      ? (engagementDetail(item.id, prices) ?? "Engagement 6 mois")
+                      : item.detail
+                  }
                   i={i + gi * 0.2}
                 />
               ))}
