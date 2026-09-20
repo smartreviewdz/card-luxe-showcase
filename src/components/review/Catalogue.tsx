@@ -1,5 +1,5 @@
 import { LayoutGroup, motion } from "motion/react";
-import { CATALOGUE, type Item } from "./catalogue-data";
+import { CATALOGUE, engagementDetail, engagementNote, type Item } from "./catalogue-data";
 import { Price } from "./Price";
 import { Corners, Eyebrow, Reveal } from "./primitives";
 
@@ -7,11 +7,15 @@ function ProductCard({
   item,
   price,
   reference,
+  note,
+  detail,
   i,
 }: {
   item: Item;
   price: number;
   reference: number;
+  note?: string | undefined;
+  detail: string;
   i: number;
 }) {
   return (
