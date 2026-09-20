@@ -1,5 +1,11 @@
 import { LayoutGroup, motion } from "motion/react";
-import { CATALOGUE, engagementDetail, engagementNote, type Item } from "./catalogue-data";
+import {
+  CATALOGUE,
+  ENGAGEMENTS,
+  engagementDetail,
+  engagementNote,
+  type Item,
+} from "./catalogue-data";
 import { Price } from "./Price";
 import { Corners, Eyebrow, Reveal } from "./primitives";
 
@@ -114,8 +120,14 @@ export function Catalogue({
                   item={item}
                   price={prices[item.id] ?? item.base}
                   reference={previous[item.id] ?? item.base}
-                  note={engagementNote(item.id, prices) ?? item.note}
-                  detail={engagementDetail(item.id, prices) ?? item.detail}
+                  note={
+                    item.id in ENGAGEMENTS ? (engagementNote(item.id, prices) ?? undefined) : item.note
+                  }
+                  detail={
+                    item.id in ENGAGEMENTS
+                      ? (engagementDetail(item.id, prices) ?? "Engagement 6 mois")
+                      : item.detail
+                  }
                   i={i + gi * 0.2}
                 />
               ))}
