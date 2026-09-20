@@ -60,14 +60,14 @@ function ProductCard({
           )}
           <div className="min-w-0 flex-1">
             <h3 className="font-display text-lg leading-tight font-semibold text-navy">{item.name}</h3>
-            <p className="mt-1 font-sans text-[0.72rem] leading-snug text-ink-muted">{item.detail}</p>
+            <p className="mt-1 font-sans text-[0.72rem] leading-snug text-ink-muted">{detail}</p>
           </div>
         </div>
 
         <div className="mt-4 flex items-end justify-between gap-3">
-          {item.note ? (
+          {note ? (
             <span className="max-w-[9rem] font-sans text-[0.58rem] leading-snug tracking-[0.14em] text-gold-deep uppercase">
-              {item.note}
+              {note}
             </span>
           ) : (
             <span className="gold-rule w-16" />
@@ -114,6 +114,8 @@ export function Catalogue({
                   item={item}
                   price={prices[item.id] ?? item.base}
                   reference={previous[item.id] ?? item.base}
+                  note={engagementNote(item.id, prices) ?? item.note}
+                  detail={engagementDetail(item.id, prices) ?? item.detail}
                   i={i + gi * 0.2}
                 />
               ))}
