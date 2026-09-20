@@ -89,6 +89,35 @@ export const CATALOGUE: Group[] = [
 
 export const ALL_ITEMS: Item[] = CATALOGUE.flatMap((g) => g.items);
 
+/** Engagement item id -> matching monthly item id */
+export const ENGAGEMENTS: Record<string, string> = {
+  "filtrage-6": "filtrage-mois",
+  "tracking-6": "tracking-mois",
+};
+
+function priceOf(id: string, prices: Record<string, number>) {
+  const item = ALL_ITEMS.find((it) => it.id === id);
+  return prices[id] ?? item?.base ?? 0;
+}
+
+/** Live "économie" note computed from the current prices, or null when there is no saving. */
+export function engagementNote(itemId: string, prices: Record<string, number>): string | null {
+  const monthlyId = ENGAGEMENTS[itemId];
+  if (!monthlyId) return null;
+  const diff = priceOf(monthlyId, prices) - priceOf(itemId, prices);
+  if (diff <= 0) return null;
+  return `Économie de ${formatDA(diff * 6).replace(" DA", " DA")} sur 6 mois`;
+}
+
+/** Live per-month difference, e.g. "−500 DA / mois". */
+export function engagementDetail(itemId: string, prices: Record<string, number>): string | null {
+  const monthlyId = ENGAGEMENTS[itemId];
+  if (!monthlyId) return null;
+  const diff = priceOf(monthlyId, prices) - priceOf(itemId, prices);
+  if (diff <= 0) return null;
+  return `−${formatDA(diff)} / mois`;
+}
+
 export function formatDA(v: number) {
   return `${v.toLocaleString("fr-FR").replace(/\u202f|,/g, " ")} DA`;
 }

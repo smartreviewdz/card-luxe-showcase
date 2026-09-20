@@ -176,13 +176,13 @@ function CataloguePage() {
   return (
     <main className="min-h-screen bg-ivory font-sans antialiased">
       <Hero onBadgeClick={() => setOpen(true)} />
-      <Catalogue prices={state.prices} previous={state.previous} />
+      <Catalogue prices={value.prices} previous={value.previous} />
       <Footer />
       <PriceEditor
         open={open}
-        unlocked={status?.unlocked === true}
-        prices={state.prices}
-        previous={state.previous}
+        unlocked={unlocked}
+        prices={value.prices}
+        previous={value.previous}
         saving={saving}
         onUnlock={handleUnlock}
         onChange={handleChange}
