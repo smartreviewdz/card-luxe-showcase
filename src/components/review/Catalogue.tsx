@@ -1,9 +1,9 @@
 import { LayoutGroup, motion } from "motion/react";
 import {
   CATALOGUE,
-  ENGAGEMENTS,
-  engagementDetail,
-  engagementNote,
+  PACKS,
+  packMonthly,
+  packSavings,
   type Item,
 } from "./catalogue-data";
 import { Price } from "./Price";
