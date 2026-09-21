@@ -1,9 +1,9 @@
 import { LayoutGroup, motion } from "motion/react";
 import {
   CATALOGUE,
-  ENGAGEMENTS,
-  engagementDetail,
-  engagementNote,
+  PACKS,
+  packMonthly,
+  packSavings,
   type Item,
 } from "./catalogue-data";
 import { Price } from "./Price";
@@ -121,11 +121,11 @@ export function Catalogue({
                   price={prices[item.id] ?? item.base}
                   reference={previous[item.id] ?? item.base}
                   note={
-                    item.id in ENGAGEMENTS ? (engagementNote(item.id, prices) ?? undefined) : item.note
+                    item.id in PACKS ? (packSavings(item.id, prices) ?? undefined) : item.note
                   }
                   detail={
-                    item.id in ENGAGEMENTS
-                      ? (engagementDetail(item.id, prices) ?? "Engagement 6 mois")
+                    item.id in PACKS
+                      ? (packMonthly(item.id, prices) ?? item.detail)
                       : item.detail
                   }
                   i={i + gi * 0.2}
