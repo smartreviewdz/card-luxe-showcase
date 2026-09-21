@@ -47,19 +47,23 @@ export const CATALOGUE: Group[] = [
     title: "Logiciel de Filtrage",
     items: [
       {
-        id: "filtrage-mois",
-        name: "Abonnement mensuel",
-        detail: "Sans engagement",
-        base: 3500,
-        unit: "/ mois",
+        id: "filtrage-3",
+        name: "Pack 3 mois",
+        detail: "Paiement unique",
+        base: 9000,
       },
       {
         id: "filtrage-6",
-        name: "Engagement 6 mois",
-        detail: "−500 DA / mois",
-        base: 3000,
-        unit: "/ mois",
-        note: "Économie de 3 000 DA sur 6 mois",
+        name: "Pack 6 mois",
+        detail: "Paiement unique",
+        base: 16000,
+      },
+      {
+        id: "filtrage-12",
+        name: "Pack 1 an",
+        detail: "Paiement unique",
+        base: 28000,
+        featured: true,
       },
     ],
   },
@@ -69,19 +73,23 @@ export const CATALOGUE: Group[] = [
     title: "Logiciel + Rapport PDF de Tracking",
     items: [
       {
-        id: "tracking-mois",
-        name: "Abonnement mensuel",
-        detail: "Rapport mensuel inclus",
-        base: 3800,
-        unit: "/ mois",
+        id: "tracking-3",
+        name: "Pack 3 mois",
+        detail: "Paiement unique",
+        base: 10000,
       },
       {
         id: "tracking-6",
-        name: "Engagement 6 mois",
-        detail: "−300 DA / mois",
-        base: 3500,
-        unit: "/ mois",
-        note: "Économie de 1 800 DA sur 6 mois",
+        name: "Pack 6 mois",
+        detail: "Paiement unique",
+        base: 18000,
+      },
+      {
+        id: "tracking-12",
+        name: "Pack 1 an",
+        detail: "Paiement unique",
+        base: 32000,
+        featured: true,
       },
     ],
   },
@@ -89,33 +97,39 @@ export const CATALOGUE: Group[] = [
 
 export const ALL_ITEMS: Item[] = CATALOGUE.flatMap((g) => g.items);
 
-/** Engagement item id -> matching monthly item id */
-export const ENGAGEMENTS: Record<string, string> = {
-  "filtrage-6": "filtrage-mois",
-  "tracking-6": "tracking-mois",
+/** Pack item id -> { months, reference pack id used as the monthly benchmark } */
+export const PACKS: Record<string, { months: number; reference: string }> = {
+  "filtrage-3": { months: 3, reference: "filtrage-3" },
+  "filtrage-6": { months: 6, reference: "filtrage-3" },
+  "filtrage-12": { months: 12, reference: "filtrage-3" },
+  "tracking-3": { months: 3, reference: "tracking-3" },
+  "tracking-6": { months: 6, reference: "tracking-3" },
+  "tracking-12": { months: 12, reference: "tracking-3" },
 };
+
+const REFERENCE_MONTHS = 3;
 
 function priceOf(id: string, prices: Record<string, number>) {
   const item = ALL_ITEMS.find((it) => it.id === id);
   return prices[id] ?? item?.base ?? 0;
 }
 
-/** Live "économie" note computed from the current prices, or null when there is no saving. */
-export function engagementNote(itemId: string, prices: Record<string, number>): string | null {
-  const monthlyId = ENGAGEMENTS[itemId];
-  if (!monthlyId) return null;
-  const diff = priceOf(monthlyId, prices) - priceOf(itemId, prices);
-  if (diff <= 0) return null;
-  return `Économie de ${formatDA(diff * 6).replace(" DA", " DA")} sur 6 mois`;
+/** "Paiement unique · X DA / mois" line for a pack. */
+export function packMonthly(itemId: string, prices: Record<string, number>): string | null {
+  const pack = PACKS[itemId];
+  if (!pack) return null;
+  const perMonth = Math.round(priceOf(itemId, prices) / pack.months);
+  return `Paiement unique · ${formatDA(perMonth)} / mois`;
 }
 
-/** Live per-month difference, e.g. "−500 DA / mois". */
-export function engagementDetail(itemId: string, prices: Record<string, number>): string | null {
-  const monthlyId = ENGAGEMENTS[itemId];
-  if (!monthlyId) return null;
-  const diff = priceOf(monthlyId, prices) - priceOf(itemId, prices);
+/** Live saving vs the 3-month pack rate, or null when there is none. */
+export function packSavings(itemId: string, prices: Record<string, number>): string | null {
+  const pack = PACKS[itemId];
+  if (!pack || pack.months === REFERENCE_MONTHS) return null;
+  const refMonthly = priceOf(pack.reference, prices) / REFERENCE_MONTHS;
+  const diff = Math.round(refMonthly * pack.months - priceOf(itemId, prices));
   if (diff <= 0) return null;
-  return `−${formatDA(diff)} / mois`;
+  return `Économie de ${formatDA(diff)} sur ${pack.months} mois`;
 }
 
 export function formatDA(v: number) {
