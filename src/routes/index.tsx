@@ -19,7 +19,12 @@ import {
 const pricesQuery = queryOptions({
   queryKey: ["catalogue-prices"],
   queryFn: () => fetchPrices(),
-  staleTime: 30_000,
+  staleTime: 0,
+  refetchOnWindowFocus: true,
+  refetchOnMount: "always",
+  refetchInterval: 15_000,
+  retry: 5,
+  retryDelay: (n) => Math.min(1000 * 2 ** n, 8000),
 });
 
 
