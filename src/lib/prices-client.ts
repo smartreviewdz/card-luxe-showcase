@@ -38,7 +38,8 @@ export async function fetchPrices(): Promise<PriceState> {
   const { data, error } = await db().from("catalogue_prices").select("item_id, price, previous_price");
   const prices: Record<string, number> = {};
   const previous: Record<string, number> = {};
-  if (error || !data) return { prices, previous };
+  // Throw so the query retries and keeps the last known prices instead of flashing defaults.
+  if (error || !data) throw error ?? new Error("prices unavailable");
   for (const row of data as { item_id: string; price: number; previous_price: number }[]) {
     prices[row.item_id] = row.price;
     previous[row.item_id] = row.previous_price;
